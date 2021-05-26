@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/helper/news.dart';
 import 'package:news_app/models/article_model.dart';
-import 'article_view.dart';
+
 import 'home.dart';
+
 class CategoryNews extends StatefulWidget {
   final String category;
   CategoryNews({this.category});
@@ -20,8 +21,9 @@ class _CategoryNewsState extends State<CategoryNews> {
     super.initState();
     getCategorieNews();
   }
+
   getCategorieNews() async {
-    CategoryNewsClass newsClass = CategoryNewsClass() ;
+    CategoryNewsClass newsClass = CategoryNewsClass();
     await newsClass.getNews(widget.category);
     articles = newsClass.news;
     setState(() {
@@ -32,14 +34,15 @@ class _CategoryNewsState extends State<CategoryNews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar : AppBar(
+      appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text("Flutter"),
-            Text("News", style: TextStyle(
-                color: Colors.blue
-            ),)
+            Text(
+              "News",
+              style: TextStyle(color: Colors.blue),
+            )
           ],
         ),
         actions: <Widget>[
@@ -53,42 +56,37 @@ class _CategoryNewsState extends State<CategoryNews> {
         centerTitle: true,
         elevation: 2.0,
       ),
-      body: _loading ? Center(
-        child: Container(
-          child: CircularProgressIndicator(),
-        ),
-      ): SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              ///Blogs
-              Container(
-                padding: EdgeInsets.only(top: 16),
-                child: ListView.builder(
-                    itemCount: articles.length,
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemBuilder: (context, index){
-                      return BlogTile(
-                        imageUrl: articles[index].urlToImage,
-                        title: articles[index].title,
-                        desc: articles[index].description,
-                        url: articles[index].url,
-                        sourceID: articles[index].sourceID,
-                        sourceName: articles[index].source,
-                      );
-                    }),
-              )
-            ],
-          ),
-        ),
-      ),
-
+      body: _loading
+          ? Center(
+              child: Container(
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : SingleChildScrollView(
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    ///Blogs
+                    Container(
+                      padding: EdgeInsets.only(top: 16),
+                      child: ListView.builder(
+                          itemCount: articles.length,
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return BlogTile(
+                              imageUrl: articles[index].urlToImage,
+                              title: articles[index].title,
+                              desc: articles[index].description,
+                              url: articles[index].url,
+                              sourceName: articles[index].source,
+                            );
+                          }),
+                    )
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }
-
-
-
-
-

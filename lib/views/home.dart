@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/helper/data.dart';
+import 'package:news_app/helper/hive_helper.dart';
 import 'package:news_app/helper/news.dart';
-import 'package:news_app/main.dart';
 import 'package:news_app/models/article_model.dart';
-import 'package:news_app/models/bookmarked_model.dart';
 import 'package:news_app/models/categori_model.dart';
 import 'package:news_app/views/article_view.dart';
 import 'package:news_app/views/category_news.dart';
@@ -15,8 +15,6 @@ import 'package:news_app/views/search_view.dart';
 import 'package:news_app/views/settings.dart';
 import 'package:news_app/views/source_view.dart';
 import 'package:share/share.dart';
-import 'package:favorite_button/favorite_button.dart';
-import 'package:hive/hive.dart';
 
 String searchQuery = '';
 
@@ -31,7 +29,6 @@ class _HomeState extends State<Home> {
 
   bool _loading = true;
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -39,7 +36,6 @@ class _HomeState extends State<Home> {
     categories = getCategories();
     getNews();
   }
-
 
   Future<void> getNews() async {
     News newsClass = News();
@@ -49,6 +45,7 @@ class _HomeState extends State<Home> {
       _loading = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     int itemCount;
@@ -58,7 +55,9 @@ class _HomeState extends State<Home> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Spacer(flex: 2,),
+            Spacer(
+              flex: 2,
+            ),
             RichText(
               text: TextSpan(
                 text: "Instant",
@@ -79,11 +78,13 @@ class _HomeState extends State<Home> {
               ),
             ),
             Spacer(),
-            IconButton(icon: Icon(Icons.download_done_outlined),highlightColor: Colors.blue,
-                iconSize: 25, onPressed: (){
+            IconButton(
+                icon: Icon(Icons.download_done_outlined),
+                highlightColor: Colors.blue,
+                iconSize: 25,
+                onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SavedView()));
-
                 }),
             IconButton(
               onPressed: () {
@@ -106,8 +107,8 @@ class _HomeState extends State<Home> {
               ),
             )
           : RefreshIndicator(
-        onRefresh: getNews,
-            child: SingleChildScrollView(
+              onRefresh: getNews,
+              child: SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 7),
                   child: Column(
@@ -155,7 +156,6 @@ class _HomeState extends State<Home> {
                                 desc: articles[index].description,
                                 url: articles[index].url,
                                 sourceName: articles[index].source,
-                                sourceID: articles[index].sourceID,
                               );
                             }),
                       )
@@ -163,7 +163,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-          ),
+            ),
     );
   }
 }
@@ -221,13 +221,14 @@ class CategoryTile extends StatelessWidget {
 class BlogTile extends StatelessWidget {
   final String imageUrl, title, desc, url, sourceName, sourceID;
 
-  BlogTile(
-      {@required this.imageUrl,
-      @required this.title,
-      @required this.desc,
-      @required this.url,
-      @required this.sourceName, this.sourceID,
-      });
+  BlogTile({
+    @required this.imageUrl,
+    @required this.title,
+    @required this.desc,
+    @required this.url,
+    @required this.sourceName,
+    this.sourceID,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -303,12 +304,24 @@ class BlogTile extends StatelessWidget {
                     iconColor: Colors.blue,
                     isFavorite: false,
                     valueChanged: (_isFavourite) {
-                      if(_isFavourite){
-                      Hive.box(Saved_Articles).put('title', title);}
-                      else Hive.box(Saved_Articles).delete('title');
-
-                      print(Hive.box(Saved_Articles).get('title'));
-
+                      if (_isFavourite) {
+                        addBookmarkArticleToLocalDB(ArticleModel(
+                          title: title,
+                          url: url,
+                          urlToImage: imageUrl,
+                          description: desc,
+                          source: sourceName,
+                        ));
+                        print(title);
+                      } else {
+                        deleteBookmarkArticleToLocalDB(ArticleModel(
+                          title: title,
+                          url: url,
+                          urlToImage: imageUrl,
+                          description: desc,
+                          source: sourceName,
+                        ));
+                      }
                     },
                   ),
                 ],
