@@ -16,7 +16,8 @@ class ArticleModel {
   String content;
   @HiveField(5)
   String source;
-
+  @HiveField(6)
+  bool bookmarked;
   ArticleModel({
     this.title,
     this.description,
@@ -24,6 +25,7 @@ class ArticleModel {
     this.urlToImage,
     this.content,
     this.source,
+    this.bookmarked = false,
   });
 
   factory ArticleModel.fromJson(Map<String, dynamic> element) {

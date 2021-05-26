@@ -2,32 +2,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/helper/hive_helper.dart';
 import 'package:news_app/models/article_model.dart';
-import 'package:news_app/views/search_view.dart';
-
-import 'home.dart';
+import 'package:news_app/views/Blog_View.dart';
 
 class SavedView extends StatefulWidget {
   @override
   _SavedViewState createState() => _SavedViewState();
 }
 
-bool _loading = false;
+bool _loading = true;
 
 class _SavedViewState extends State<SavedView> {
-  void test() async {
-    List<ArticleModel> x = await getBookmarkArticleToLocalDB();
-    print(x.length);
+  List<ArticleModel> articles = [];
+  void getArticles() async {
+    articles = await getBookmarkArticleToLocalDB();
+    print(articles.length);
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
   void initState() {
-    test();
     super.initState();
+    getArticles();
   }
 
   @override
   Widget build(BuildContext context) {
-    int itemCount;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -54,18 +55,6 @@ class _SavedViewState extends State<SavedView> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: <Widget>[
-                    CupertinoSearchTextField(
-                      placeholder: 'Search Anything',
-                      onSubmitted: (value) async {
-                        searchQuery = value;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchView()));
-                      },
-                    ),
-
-                    ///Blogs
                     Container(
                       padding: EdgeInsets.only(top: 16),
                       child: ListView.builder(

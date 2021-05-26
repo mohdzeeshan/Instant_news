@@ -23,13 +23,14 @@ class ArticleModelAdapter extends TypeAdapter<ArticleModel> {
       urlToImage: fields[3] as String,
       content: fields[4] as String,
       source: fields[5] as String,
+      bookmarked: fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, ArticleModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class ArticleModelAdapter extends TypeAdapter<ArticleModel> {
       ..writeByte(4)
       ..write(obj.content)
       ..writeByte(5)
-      ..write(obj.source);
+      ..write(obj.source)
+      ..writeByte(6)
+      ..write(obj.bookmarked);
   }
 
   @override
