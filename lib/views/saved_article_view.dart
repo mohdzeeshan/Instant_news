@@ -14,11 +14,14 @@ bool _loading = true;
 class _SavedViewState extends State<SavedView> {
   List<ArticleModel> articles = [];
   void getArticles() async {
-    articles = await getBookmarkArticleToLocalDB();
-    print(articles.length);
-    setState(() {
-      _loading = false;
-    });
+    try {
+      articles = await getBookmarkArticleToLocalDB();
+      setState(() {
+        _loading = false;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

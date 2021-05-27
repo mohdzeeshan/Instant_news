@@ -14,11 +14,11 @@ Future addBookmarkArticleToLocalDB(ArticleModel articleModel) async {
 }
 
 Future<List<ArticleModel>> getBookmarkArticleToLocalDB() async {
-  List<ArticleModel> articles;
+  List articles;
   await Hive.openBox('bookmarkArticles');
   Box box = Hive.box('bookmarkArticles');
   articles = await box.get('articles');
-  return articles ?? [];
+  return List<ArticleModel>.from(articles) ?? [];
 }
 
 Future deleteBookmarkArticleToLocalDB(ArticleModel articleModel) async {
