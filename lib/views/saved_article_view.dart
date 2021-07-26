@@ -37,9 +37,9 @@ class _SavedViewState extends State<SavedView> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Instant"),
+            Text("Bookmarked"),
             Text(
-              "News",
+              " News",
               style: TextStyle(color: Colors.blue),
             )
           ],
@@ -71,6 +71,8 @@ class _SavedViewState extends State<SavedView> {
                               desc: articles[index].description,
                               url: articles[index].url,
                               sourceName: articles[index].source,
+                              //time: articles[index].date,
+                              isBookmarkView: true,
                             );
                           }),
                     ),

@@ -8,7 +8,9 @@ import 'home.dart';
 
 class SearchView extends StatefulWidget {
   String searchedQuery = '';
-  SearchView({this.searchedQuery});
+  bool loading;
+
+  SearchView({@required this.searchedQuery, this.loading});
 
   @override
   _SearchViewState createState() => _SearchViewState();
@@ -16,7 +18,7 @@ class SearchView extends StatefulWidget {
 
 List<ArticleModel> articles = new List<ArticleModel>();
 
-bool _loading = true;
+
 
 class _SearchViewState extends State<SearchView> {
   void initState() {
@@ -31,7 +33,7 @@ class _SearchViewState extends State<SearchView> {
     await newsClass.getNews(widget.searchedQuery);
     articles = newsClass.news;
     setState(() {
-      _loading = false;
+      widget.loading = false;
     });
   }
 
@@ -53,7 +55,7 @@ class _SearchViewState extends State<SearchView> {
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: _loading
+      body: widget.loading
           ? Center(
               child: Container(
                 child: CircularProgressIndicator(),
@@ -64,18 +66,6 @@ class _SearchViewState extends State<SearchView> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: <Widget>[
-                    CupertinoSearchTextField(
-                      placeholder: 'Search Anything',
-                      onSubmitted: (value) async {
-                        searchQuery = value;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchView()));
-                      },
-                    ),
-
-                    ///Blogs
                     Container(
                       padding: EdgeInsets.only(top: 16),
                       child: ListView.builder(
@@ -89,6 +79,7 @@ class _SearchViewState extends State<SearchView> {
                               desc: articles[index].description,
                               url: articles[index].url,
                               sourceName: articles[index].source,
+                              time: articles[index].date,
                             );
                           }),
                     ),

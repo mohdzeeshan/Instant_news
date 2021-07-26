@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1042345751649",
+    "project_id": "instantnews-26105",
+    "storage_bucket": "instantnews-26105.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042345751649:android:ca74744da3a3f5b9eb6620",
+        "android_client_info": {
+          "package_name": "com.example.news_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042345751649-qv7ojcscp5akar8q18qq7gif75qfq7gp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzXjG_YJr7h65Mh5DMNdWehZl8upY5_ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042345751649-qv7ojcscp5akar8q18qq7gif75qfq7gp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

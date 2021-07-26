@@ -2,10 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:news_app/helper/news.dart';
 import 'package:news_app/models/article_model.dart';
 import 'package:news_app/views/Blog_View.dart';
+import 'package:news_app/views/saved_article_view.dart';
+import 'package:news_app/views/settings.dart';
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+}
 
 class CategoryNews extends StatefulWidget {
   final String category;
+
   CategoryNews({this.category});
+
   @override
   _CategoryNewsState createState() => _CategoryNewsState();
 }
@@ -37,23 +47,52 @@ class _CategoryNewsState extends State<CategoryNews> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Flutter"),
-            Text(
-              "News",
-              style: TextStyle(color: Colors.blue),
-            )
+            Spacer(
+              flex: 2,
+            ),
+            RichText(
+              text: TextSpan(
+                text: widget.category.capitalize(),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+                children: [
+                  TextSpan(
+                    text: " News",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Spacer(),
+            IconButton(
+                icon: Icon(
+                  Icons.bookmarks,
+                ),
+                highlightColor: Colors.blue,
+                iconSize: 25,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SavedView()));
+                }),
+            IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Settings()));
+              },
+              icon: Icon(Icons.settings),
+              highlightColor: Colors.blue,
+              iconSize: 25,
+            ),
           ],
         ),
-        actions: <Widget>[
-          Opacity(
-            opacity: 0,
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Icon(Icons.save)),
-          )
-        ],
         centerTitle: true,
-        elevation: 2.0,
+        elevation: 4.0,
       ),
       body: _loading
           ? Center(
@@ -79,6 +118,7 @@ class _CategoryNewsState extends State<CategoryNews> {
                               desc: articles[index].description,
                               url: articles[index].url,
                               sourceName: articles[index].source,
+                              time: articles[index].date,
                             );
                           }),
                     )

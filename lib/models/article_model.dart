@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-
 part 'article_model.g.dart';
 
 @HiveType(typeId: 1)
@@ -18,6 +17,9 @@ class ArticleModel {
   String source;
   @HiveField(6)
   bool bookmarked;
+  @HiveField(7)
+  String date;
+
   ArticleModel({
     this.title,
     this.description,
@@ -25,7 +27,9 @@ class ArticleModel {
     this.urlToImage,
     this.content,
     this.source,
+    this.date,
     this.bookmarked = false,
+
   });
 
   factory ArticleModel.fromJson(Map<String, dynamic> element) {
@@ -36,6 +40,7 @@ class ArticleModel {
       urlToImage: element["urlToImage"],
       source: element['source']['name'],
       content: element["content"],
+      date: element["publishedAt"]
     );
   }
 }
