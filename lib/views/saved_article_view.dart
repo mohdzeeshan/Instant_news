@@ -65,13 +65,14 @@ class _SavedViewState extends State<SavedView> {
                           shrinkWrap: true,
                           physics: ClampingScrollPhysics(),
                           itemBuilder: (context, index) {
+                            print(articles[index].date);
                             return BlogTile(
                               imageUrl: articles[index].urlToImage,
                               title: articles[index].title,
                               desc: articles[index].description,
                               url: articles[index].url,
                               sourceName: articles[index].source,
-                              //time: articles[index].date,
+                              time: articles[index].date ?? '2021-07-28',
                               isBookmarkView: true,
                             );
                           }),

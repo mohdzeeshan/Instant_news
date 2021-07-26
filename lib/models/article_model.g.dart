@@ -23,8 +23,8 @@ class ArticleModelAdapter extends TypeAdapter<ArticleModel> {
       urlToImage: fields[3] as String,
       content: fields[4] as String,
       source: fields[5] as String,
-      date: fields[7] as String,
       bookmarked: fields[6] as bool,
+      date: fields[7] as String,
     );
   }
 
